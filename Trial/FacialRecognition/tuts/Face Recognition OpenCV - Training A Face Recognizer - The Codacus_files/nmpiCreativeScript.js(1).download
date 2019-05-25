@@ -1,0 +1,530 @@
+var position = (scrollDirection === 'vertical' ? 'top': 'left');
+var dimension = (scrollDirection === 'vertical' ? 'height': 'width');
+var productPositions = [];
+
+var animationTime = timers.animationLimit - timers.intro - timers.transition;
+var maxScrolls = parseInt(animationTime / timers.autoScroll);
+if (returnToStart) {
+  maxScrolls = parseInt(maxScrolls / noProducts) * noProducts;
+}
+
+var arrowDown = false;
+var loopStage = 0;
+var scrollCounter = 0;
+
+window.onload = function() {
+
+  applyDimensions();
+  buildCarousel();
+
+  if (Enabler.isInitialized()) {
+    initCreative();
+  } else {
+    Enabler.addEventListener(studio.events.StudioEvent.INIT, initCreative);
+  }
+  
+};
+
+function applyDimensions() {
+  
+  var allElements = document.getElementsByTagName('body')[0].getElementsByTagName('*');
+  for (var i = 0; i < allElements.length; i++) {
+    allElements[i].className += ' size' + creativeSize;
+  }
+  
+}
+
+function buildCarousel() {
+  
+  var nmpiSlider = document.getElementById('nmpiSlider');
+  var sliderSize = scrollDirection === 'horizontal' ? nmpiSlider.clientWidth : nmpiSlider.clientHeight;
+  var productSize = (sliderSize - visibleProducts * 2 * productBoundary - (visibleProducts - 1) * productSeparation) / visibleProducts;
+    
+  for (var i = 0; i < noProducts; i++) {
+    productPositions.push((i - 1) * (productSize + productSeparation) + (i * 2 - 1) * productBoundary);
+  }
+  
+  for (var i = 0; i < noProducts; i++) {
+    
+    var nmpiProduct = document.createElement('div');
+    nmpiProduct.id = 'nmpiProduct' + i;
+    nmpiProduct.className = 'nmpiProduct size' + creativeSize;
+    nmpiProduct.style[dimension] = productSize + 'px';
+    nmpiProduct.style[position] = productPositions[i] + 'px';
+    nmpiProduct.style.transition = 'left ' + timers.scrollAnimation + 'ms ease-out 0s, top ' + timers.scrollAnimation + 'ms ease-out 0s';
+    
+    var nmpiProductPicture = document.createElement('div');
+    nmpiProductPicture.id = 'nmpiProductPicture' + i;
+    nmpiProductPicture.className = 'nmpiProductPicture size' + creativeSize;
+    
+    var nmpiProductName = document.createElement('div');
+    nmpiProductName.id = 'nmpiProductName' + i;
+    nmpiProductName.className = 'nmpiProductName size' + creativeSize;
+    
+    var nmpiProductPrice = document.createElement('div');
+    nmpiProductPrice.id = 'nmpiProductPrice' + i;
+    nmpiProductPrice.className = 'nmpiProductPrice size' + creativeSize;   
+    
+    var nmpiProductPictureImg = document.createElement('img');
+    nmpiProductPictureImg.id = 'nmpiProductPictureImg' + i;
+    nmpiProductPictureImg.className = 'nmpiProductPictureImg size' + creativeSize;
+    
+    var nmpiProductNameSpan = document.createElement('span');
+    nmpiProductNameSpan.id = 'nmpiProductNameSpan' + i;
+    nmpiProductNameSpan.className = 'nmpiProductNameSpan size' + creativeSize;
+    
+    var nmpiProductPriceSpan = document.createElement('span');
+    nmpiProductPriceSpan.id = 'nmpiProductPriceSpan' + i;
+    nmpiProductPriceSpan.className = 'nmpiProductPriceSpan size' + creativeSize;
+    
+    var nmpiSalePriceSpan = document.createElement('span');
+    nmpiSalePriceSpan.id = 'nmpiSalePriceSpan' + i;
+    nmpiSalePriceSpan.className = 'nmpiSalePriceSpan size' + creativeSize;
+    
+    nmpiProduct.appendChild(nmpiProductPicture);
+    nmpiProduct.appendChild(nmpiProductName);
+    nmpiProduct.appendChild(nmpiProductPrice);
+    
+    nmpiProductPicture.appendChild(nmpiProductPictureImg);
+    nmpiProductName.appendChild(nmpiProductNameSpan);
+    nmpiProductPrice.appendChild(nmpiProductPriceSpan);
+    nmpiProductPrice.appendChild(nmpiSalePriceSpan);
+    
+    nmpiSlider.appendChild(nmpiProduct);
+    
+  }
+  
+}
+
+function getDynamicContent() {
+
+  Enabler.setProfileId(10273623);
+  var devDynamicContent = {};
+
+  devDynamicContent.productFeedRemarketing= [{}];
+  devDynamicContent.productFeedRemarketing[0]._id = 0;
+  devDynamicContent.productFeedRemarketing[0].productGender = "unisex";
+  devDynamicContent.productFeedRemarketing[0].productAgeGroup = "adult";
+  devDynamicContent.productFeedRemarketing[0].productCategory = "15 ENGRAVING";
+  devDynamicContent.productFeedRemarketing[0].productName = "LFC Personalised Crest Dog Tag";
+  devDynamicContent.productFeedRemarketing[0].productImage = {};
+  devDynamicContent.productFeedRemarketing[0].productImage.Url = "https://d31g1t86vhddag.cloudfront.net/media/catalog/product/t/f/tf1213.png";
+  devDynamicContent.productFeedRemarketing[0].productPrice = "\u00A315.00";
+  devDynamicContent.productFeedRemarketing[0].onSale = false;
+  devDynamicContent.productFeedRemarketing[0].salePrice = "";
+  devDynamicContent.productFeedRemarketing[0].productLink = {};
+  devDynamicContent.productFeedRemarketing[0].productLink.Url = "https://store.liverpoolfc.com/pers-lfc-crest-dog-tag/?set_currency=GBP";
+  devDynamicContent.productFeedCategory= [{},{},{},{},{}];
+  devDynamicContent.productFeedCategory[0]._id = 0;
+  devDynamicContent.productFeedCategory[0].productName = "LFC Personalised Crest Dog Tag";
+  devDynamicContent.productFeedCategory[0].productImage = {};
+  devDynamicContent.productFeedCategory[0].productImage.Url = "https://d31g1t86vhddag.cloudfront.net/media/catalog/product/t/f/tf1213.png";
+  devDynamicContent.productFeedCategory[0].productPrice = "\u00A315.00";
+  devDynamicContent.productFeedCategory[0].onSale = false;
+  devDynamicContent.productFeedCategory[0].salePrice = "";
+  devDynamicContent.productFeedCategory[0].productLink = {};
+  devDynamicContent.productFeedCategory[0].productLink.Url = "https://store.liverpoolfc.com/pers-lfc-crest-dog-tag/?set_currency=GBP";
+  devDynamicContent.productFeedCategory[1].productName = "LFC Personalised Crest Dog Tag";
+  devDynamicContent.productFeedCategory[1].productImage = {};
+  devDynamicContent.productFeedCategory[1].productImage.Url = "https://d31g1t86vhddag.cloudfront.net/media/catalog/product/t/f/tf1213.png";
+  devDynamicContent.productFeedCategory[1].productPrice = "\u00A315.00";
+  devDynamicContent.productFeedCategory[1].onSale = false;
+  devDynamicContent.productFeedCategory[1].salePrice = "";
+  devDynamicContent.productFeedCategory[1].productLink = {};
+  devDynamicContent.productFeedCategory[1].productLink.Url = "https://store.liverpoolfc.com/pers-lfc-crest-dog-tag/?set_currency=GBP";
+  devDynamicContent.productFeedCategory[2].productName = "LFC Personalised Crest Dog Tag";
+  devDynamicContent.productFeedCategory[2].productImage = {};
+  devDynamicContent.productFeedCategory[2].productImage.Url = "https://d31g1t86vhddag.cloudfront.net/media/catalog/product/t/f/tf1213.png";
+  devDynamicContent.productFeedCategory[2].productPrice = "\u00A315.00";
+  devDynamicContent.productFeedCategory[2].onSale = false;
+  devDynamicContent.productFeedCategory[2].salePrice = "";
+  devDynamicContent.productFeedCategory[2].productLink = {};
+  devDynamicContent.productFeedCategory[2].productLink.Url = "https://store.liverpoolfc.com/pers-lfc-crest-dog-tag/?set_currency=GBP";
+  devDynamicContent.productFeedCategory[3].productName = "LFC Personalised Crest Dog Tag";
+  devDynamicContent.productFeedCategory[3].productImage = {};
+  devDynamicContent.productFeedCategory[3].productImage.Url = "https://d31g1t86vhddag.cloudfront.net/media/catalog/product/t/f/tf1213.png";
+  devDynamicContent.productFeedCategory[3].productPrice = "\u00A315.00";
+  devDynamicContent.productFeedCategory[3].onSale = false;
+  devDynamicContent.productFeedCategory[3].salePrice = "";
+  devDynamicContent.productFeedCategory[3].productLink = {};
+  devDynamicContent.productFeedCategory[3].productLink.Url = "https://store.liverpoolfc.com/pers-lfc-crest-dog-tag/?set_currency=GBP";
+  devDynamicContent.productFeedCategory[4].productName = "LFC Personalised Crest Dog Tag";
+  devDynamicContent.productFeedCategory[4].productImage = {};
+  devDynamicContent.productFeedCategory[4].productImage.Url = "https://d31g1t86vhddag.cloudfront.net/media/catalog/product/t/f/tf1213.png";
+  devDynamicContent.productFeedCategory[4].productPrice = "\u00A315.00";
+  devDynamicContent.productFeedCategory[4].onSale = false;
+  devDynamicContent.productFeedCategory[4].salePrice = "";
+  devDynamicContent.productFeedCategory[4].productLink = {};
+  devDynamicContent.productFeedCategory[4].productLink.Url = "https://store.liverpoolfc.com/pers-lfc-crest-dog-tag/?set_currency=GBP";
+  
+    devDynamicContent.contentFeed= [{}];
+    devDynamicContent.contentFeed[0]._id = 0;
+    devDynamicContent.contentFeed[0].image_120x600 = {};
+    devDynamicContent.contentFeed[0].image_120x600.Type = "file";
+    devDynamicContent.contentFeed[0].image_120x600.Url = "https://s0.2mdn.net/ads/richmedia/studio/26655713/26655713_20181101045437686_christmas_160x600.png";
+    devDynamicContent.contentFeed[0].image_160x600 = {};
+    devDynamicContent.contentFeed[0].image_160x600.Type = "file";
+    devDynamicContent.contentFeed[0].image_160x600.Url = "https://s0.2mdn.net/ads/richmedia/studio/26655713/26655713_20181101045437686_christmas_160x600.png";
+    devDynamicContent.contentFeed[0].image_180x150 = {};
+    devDynamicContent.contentFeed[0].image_180x150.Type = "file";
+    devDynamicContent.contentFeed[0].image_180x150.Url = "https://s0.2mdn.net/ads/richmedia/studio/26655713/26655713_20181101045437686_christmas_160x600.png";
+    devDynamicContent.contentFeed[0].image_234x60 = {};
+    devDynamicContent.contentFeed[0].image_234x60.Type = "file";
+    devDynamicContent.contentFeed[0].image_234x60.Url = "https://s0.2mdn.net/ads/richmedia/studio/26655713/26655713_20181101045437686_christmas_160x600.png";
+    devDynamicContent.contentFeed[0].image_250x250 = {};
+    devDynamicContent.contentFeed[0].image_250x250.Type = "file";
+    devDynamicContent.contentFeed[0].image_250x250.Url = "https://s0.2mdn.net/ads/richmedia/studio/26655713/26655713_20181101045437686_christmas_160x600.png";
+    devDynamicContent.contentFeed[0].image_300x250 = {};
+    devDynamicContent.contentFeed[0].image_300x250.Type = "file";
+    devDynamicContent.contentFeed[0].image_300x250.Url = "https://s0.2mdn.net/ads/richmedia/studio/26655713/26655713_20181101045421813_christmas_300x250.png";
+    devDynamicContent.contentFeed[0].image_300x600 = {};
+    devDynamicContent.contentFeed[0].image_300x600.Type = "file";
+    devDynamicContent.contentFeed[0].image_300x600.Url = "https://s0.2mdn.net/ads/richmedia/studio/26655713/26655713_20181101045412393_christmas_300x600.png";
+    devDynamicContent.contentFeed[0].image_320x50 = {};
+    devDynamicContent.contentFeed[0].image_320x50.Type = "file";
+    devDynamicContent.contentFeed[0].image_320x50.Url = "https://s0.2mdn.net/ads/richmedia/studio/26655713/26655713_20181101045437686_christmas_160x600.png";
+    devDynamicContent.contentFeed[0].image_336x280 = {};
+    devDynamicContent.contentFeed[0].image_336x280.Type = "file";
+    devDynamicContent.contentFeed[0].image_336x280.Url = "https://s0.2mdn.net/ads/richmedia/studio/26655713/26655713_20181101055312206_christmas_336x280.png";
+    devDynamicContent.contentFeed[0].image_468x60 = {};
+    devDynamicContent.contentFeed[0].image_468x60.Type = "file";
+    devDynamicContent.contentFeed[0].image_468x60.Url = "https://s0.2mdn.net/ads/richmedia/studio/26655713/26655713_20181101045437686_christmas_160x600.png";
+    devDynamicContent.contentFeed[0].image_728x90 = {};
+    devDynamicContent.contentFeed[0].image_728x90.Type = "file";
+    devDynamicContent.contentFeed[0].image_728x90.Url = "https://s0.2mdn.net/ads/richmedia/studio/26655713/26655713_20181101061359818_christmas_728x90.png";
+    devDynamicContent.contentFeed[0].image_970x250 = {};
+    devDynamicContent.contentFeed[0].image_970x250.Type = "file";
+    devDynamicContent.contentFeed[0].image_970x250.Url = "https://s0.2mdn.net/ads/richmedia/studio/26655713/26655713_20181101055323729_christmas_970x250.png";
+    devDynamicContent.contentFeed[0].background_120x600 = {};
+    devDynamicContent.contentFeed[0].background_120x600.Type = "file";
+    devDynamicContent.contentFeed[0].background_120x600.Url = "https://s0.2mdn.net/ads/richmedia/studio/26655713/26655713_20181105135102399_christmasBackground_160x600.jpg";
+    devDynamicContent.contentFeed[0].background_160x600 = {};
+    devDynamicContent.contentFeed[0].background_160x600.Type = "file";
+    devDynamicContent.contentFeed[0].background_160x600.Url = "https://s0.2mdn.net/ads/richmedia/studio/26655713/26655713_20181105135102399_christmasBackground_160x600.jpg";
+    devDynamicContent.contentFeed[0].background_180x150 = {};
+    devDynamicContent.contentFeed[0].background_180x150.Type = "file";
+    devDynamicContent.contentFeed[0].background_180x150.Url = "https://s0.2mdn.net/ads/richmedia/studio/26655713/26655713_20181105135102399_christmasBackground_160x600.jpg";
+    devDynamicContent.contentFeed[0].background_234x60 = {};
+    devDynamicContent.contentFeed[0].background_234x60.Type = "file";
+    devDynamicContent.contentFeed[0].background_234x60.Url = "https://s0.2mdn.net/ads/richmedia/studio/26655713/26655713_20181105135102399_christmasBackground_160x600.jpg";
+    devDynamicContent.contentFeed[0].background_250x250 = {};
+    devDynamicContent.contentFeed[0].background_250x250.Type = "file";
+    devDynamicContent.contentFeed[0].background_250x250.Url = "https://s0.2mdn.net/ads/richmedia/studio/26655713/26655713_20181105135102399_christmasBackground_160x600.jpg";
+    devDynamicContent.contentFeed[0].background_300x250 = {};
+    devDynamicContent.contentFeed[0].background_300x250.Type = "file";
+    devDynamicContent.contentFeed[0].background_300x250.Url = "https://s0.2mdn.net/ads/richmedia/studio/26655713/26655713_20181105135107930_christmasBackground_300x250.jpg";
+    devDynamicContent.contentFeed[0].background_300x600 = {};
+    devDynamicContent.contentFeed[0].background_300x600.Type = "file";
+    devDynamicContent.contentFeed[0].background_300x600.Url = "https://s0.2mdn.net/ads/richmedia/studio/26655713/26655713_20181105135113279_christmasBackground_300x600.jpg";
+    devDynamicContent.contentFeed[0].background_320x50 = {};
+    devDynamicContent.contentFeed[0].background_320x50.Type = "file";
+    devDynamicContent.contentFeed[0].background_320x50.Url = "https://s0.2mdn.net/ads/richmedia/studio/26655713/26655713_20181105135102399_christmasBackground_160x600.jpg";
+    devDynamicContent.contentFeed[0].background_336x280 = {};
+    devDynamicContent.contentFeed[0].background_336x280.Type = "file";
+    devDynamicContent.contentFeed[0].background_336x280.Url = "https://s0.2mdn.net/ads/richmedia/studio/26655713/26655713_20181105135044297_christmasBackground_336x280.jpg";
+    devDynamicContent.contentFeed[0].background_468x60 = {};
+    devDynamicContent.contentFeed[0].background_468x60.Type = "file";
+    devDynamicContent.contentFeed[0].background_468x60.Url = "https://s0.2mdn.net/ads/richmedia/studio/26655713/26655713_20181105135102399_christmasBackground_160x600.jpg";
+    devDynamicContent.contentFeed[0].background_728x90 = {};
+    devDynamicContent.contentFeed[0].background_728x90.Type = "file";
+    devDynamicContent.contentFeed[0].background_728x90.Url = "https://s0.2mdn.net/ads/richmedia/studio/26655713/26655713_20181105135050165_christmasBackground_728x90.jpg";
+    devDynamicContent.contentFeed[0].background_970x250 = {};
+    devDynamicContent.contentFeed[0].background_970x250.Type = "file";
+    devDynamicContent.contentFeed[0].background_970x250.Url = "https://s0.2mdn.net/ads/richmedia/studio/26655713/26655713_20181105135056621_christmasBackground_970x250.jpg";
+    devDynamicContent.contentFeed[0].liverBird = {};
+    devDynamicContent.contentFeed[0].liverBird.Type = "file";
+    devDynamicContent.contentFeed[0].liverBird.Url = "https://s0.2mdn.net/ads/richmedia/studio/26655713/26655713_20170322130922013_liverBirdWhite.png";
+    devDynamicContent.contentFeed[0].boxShadow = false;
+    devDynamicContent.contentFeed[0].cta = "Buy Now";
+    devDynamicContent.contentFeed[0].ctaColor = "#fff";
+    devDynamicContent.contentFeed[0].ctaTextColor = "#000";
+    devDynamicContent.contentFeed[0].backgroundExit = {};
+    devDynamicContent.contentFeed[0].backgroundExit.Url = "https://store.liverpoolfc.com/christmas";
+  
+  Enabler.setDevDynamicContent(devDynamicContent);
+  
+  var content = {
+    products: [{
+      name: dynamicContent.productFeedRemarketing[0].productName,
+      sale: dynamicContent.productFeedRemarketing[0].onSale,
+      price: dynamicContent.productFeedRemarketing[0].productPrice,
+      salePrice: dynamicContent.productFeedRemarketing[0].salePrice,
+      image: dynamicContent.productFeedRemarketing[0].productImage.Url,
+      link: dynamicContent.productFeedRemarketing[0].productLink.Url
+    }],
+    content: {
+      images: {
+        '120x600': dynamicContent.contentFeed[0].image_120x600.Url,
+        '160x600': dynamicContent.contentFeed[0].image_160x600.Url,
+        '180x150': dynamicContent.contentFeed[0].image_180x150.Url,
+        '234x60': dynamicContent.contentFeed[0].image_234x60.Url,
+        '250x250': dynamicContent.contentFeed[0].image_250x250.Url,
+        '300x250': dynamicContent.contentFeed[0].image_300x250.Url,
+        '300x600': dynamicContent.contentFeed[0].image_300x600.Url,
+        '320x50': dynamicContent.contentFeed[0].image_320x50.Url,
+        '336x280': dynamicContent.contentFeed[0].image_336x280.Url,
+        '468x60': dynamicContent.contentFeed[0].image_468x60.Url,
+        '728x90': dynamicContent.contentFeed[0].image_728x90.Url,
+        '970x250': dynamicContent.contentFeed[0].image_970x250.Url
+      },
+      backgroundImages: {
+        '120x600': dynamicContent.contentFeed[0].background_120x600.Url,
+        '160x600': dynamicContent.contentFeed[0].background_160x600.Url,
+        '180x150': dynamicContent.contentFeed[0].background_180x150.Url,
+        '234x60': dynamicContent.contentFeed[0].background_234x60.Url,
+        '250x250': dynamicContent.contentFeed[0].background_250x250.Url,
+        '300x250': dynamicContent.contentFeed[0].background_300x250.Url,
+        '300x600': dynamicContent.contentFeed[0].background_300x600.Url,
+        '320x50': dynamicContent.contentFeed[0].background_320x50.Url,
+        '336x280': dynamicContent.contentFeed[0].background_336x280.Url,
+        '468x60': dynamicContent.contentFeed[0].background_468x60.Url,
+        '728x90': dynamicContent.contentFeed[0].background_728x90.Url,
+        '970x250': dynamicContent.contentFeed[0].background_970x250.Url
+      },
+      boxShadow: dynamicContent.contentFeed[0].boxShadow,
+      liverBird: dynamicContent.contentFeed[0].liverBird.Url,
+      cta: dynamicContent.contentFeed[0].cta,
+      ctaColor: dynamicContent.contentFeed[0].ctaColor,
+      ctaTextColor: dynamicContent.contentFeed[0].ctaTextColor,
+      backgroundExit: dynamicContent.contentFeed[0].backgroundExit.Url
+    }
+  };
+  
+  for (var i = 0; i < dynamicContent.productFeedCategory.length; i++) {
+    content.products.push({
+      name: dynamicContent.productFeedCategory[i].productName,
+      sale: dynamicContent.productFeedCategory[i].onSale,
+      price: dynamicContent.productFeedCategory[i].productPrice,
+      salePrice: dynamicContent.productFeedCategory[i].salePrice,
+      image: dynamicContent.productFeedCategory[i].productImage.Url,
+      link: dynamicContent.productFeedCategory[i].productLink.Url
+    });
+  }
+  
+  return content;
+	
+}
+
+function initCreative() {
+  
+  addDynamicElements(startCreative);
+  
+}
+
+function startCreative() {
+  
+  removeLoadScreen();
+  animate();
+  
+}
+
+function addDynamicElements(callback) {
+  
+  var content = getDynamicContent();
+  
+  var nmpiBrandBar = document.getElementById('nmpiBrandBar');
+  var nmpiCta = document.getElementById('nmpiCta');
+  
+  nmpiBrandBar.addEventListener('click', function() {
+    Enabler.exitOverride('Background Exit', content.content.backgroundExit);
+  }, false);
+  nmpiCta.addEventListener('click', function() {
+    Enabler.exitOverride('Background Exit', content.content.backgroundExit);
+  }, false);
+  
+  styleBanner(content);
+  populateCarousel(content);
+    
+  callback();
+  
+}
+
+function styleBanner(content) {
+  
+  var nmpiBackgroundImage = document.getElementById('nmpiBackgroundImage'); 
+  var nmpiBrandBar = document.getElementById('nmpiBrandBar');
+  var nmpiBrandBarImg = nmpiBrandBar.getElementsByTagName('img')[0];
+  var nmpiCta = document.getElementById('nmpiCta');
+  
+  nmpiBackgroundImage.style.backgroundImage = 'url(' + content.content.backgroundImages[creativeSize] + ')';
+  nmpiBrandBar.style.backgroundImage = 'url(' + content.content.images[creativeSize] + ')';
+  nmpiBrandBarImg.src = content.content.liverBird;
+  nmpiCta.getElementsByTagName('span')[0].innerHTML = content.content.cta;
+  nmpiCta.style.backgroundColor = content.content.ctaColor;
+  nmpiCta.style.color = content.content.ctaTextColor;
+  
+  var products = document.getElementsByClassName('nmpiProduct');
+  for (var i = 0; i < products.length; i++) {
+    products[i].style.boxShadow = 'none';
+  }
+  
+}
+
+function populateCarousel(content) {
+  
+  for (var i = 0; i < content.products.length; i++) {
+    
+    var productNumber = (i + 5) % 6;
+    
+    var product = document.getElementById('nmpiProduct' + productNumber);
+    var productPictureImage = document.getElementById('nmpiProductPictureImg' + productNumber);
+    var productNameSpan = document.getElementById('nmpiProductNameSpan' + productNumber);
+    var productPriceSpan = document.getElementById('nmpiProductPriceSpan' + productNumber);
+    var salePriceSpan = document.getElementById('nmpiSalePriceSpan' + productNumber);
+    
+    productPictureImage.src = content.products[i].image;
+    productNameSpan.innerHTML = content.products[i].name;
+    productPriceSpan.innerHTML = content.products[i].price;
+    salePriceSpan.innerHTML = content.products[i].salePrice;
+    
+    if (content.products[i].sale) {
+      productPriceSpan.className += ' sale';
+      salePriceSpan.style.color = '#001389';
+    }
+  
+    (function(i, product) {
+      product.addEventListener('click', function() {
+        Enabler.exitOverride('Product ' + productNumber + ' Exit', content.products[i].link);
+      }, false);
+    } (i, product));
+    
+  }
+  
+}
+
+function removeLoadScreen() {
+  
+  var nmpiLoadScreen = document.getElementById('nmpiLoadScreen');
+  nmpiLoadScreen.style.display = 'none';
+  
+}
+
+function animate() {
+  
+  setTimeout(transition, timers.intro);
+  setTimeout(autoScroll, timers.intro + timers.transition);
+  
+}
+
+function transition() {
+  
+  var transitions = {
+    '160x600': {
+      dimension:'top',
+      brandBar: -438,
+      cta: 10
+    },
+    '300x250': {
+      dimension:'left',
+      brandBar: -140,
+      cta:10
+    },
+    '300x600': {
+      dimension:'top',
+      brandBar:-383,
+      cta:10
+    },
+    '336x280': {
+      dimension:'left',
+      brandBar:-194,
+      cta:10
+    },
+    '728x90': {
+      dimension:'left',
+      brandBar:-593,
+      cta:5
+    },
+    '970x250': {
+      dimension:'left',
+      brandBar:-743,
+      cta:10
+    }
+  };
+  
+  var nmpiBrandBar = document.getElementById('nmpiBrandBar');
+  var nmpiCta = document.getElementById('nmpiCta');
+  var nmpiCarousel = document.getElementById('nmpiCarousel');
+  
+  nmpiBrandBar.style[transitions[creativeSize].dimension] = transitions[creativeSize].brandBar + 'px';
+  nmpiCta.style[transitions[creativeSize].dimension] = transitions[creativeSize].cta + 'px';
+  nmpiCarousel.style.opacity = '1';
+  
+  setTimeout(function() {
+    nmpiBrandBar.style.zIndex = '2';
+  }, timers.intro + timers.transition);
+  
+}
+
+function autoScroll() {
+  
+  var scrollInterval = setInterval(function() {
+    scrollCounter++;
+    moveForward();
+    if (scrollCounter === maxScrolls) {
+      clearInterval(scrollInterval);
+    }
+  }, timers.autoScroll);
+  
+  var nmpiArrowForward = document.getElementById('nmpiArrowForward');
+  var nmpiArrowBack = document.getElementById('nmpiArrowBack');
+  
+  nmpiArrowForward.addEventListener('click', moveForward, false);
+  nmpiArrowBack.addEventListener('click', moveBackward, false);
+  
+}
+
+function moveForward() {
+  
+  if (!arrowDown) {
+    
+    var products = document.getElementsByClassName('nmpiProduct');
+    var firstProduct = loopStage;
+    var lastProduct = (noProducts + loopStage - 1) % noProducts;
+    
+    arrowDown = true;
+    loopStage = (loopStage + noProducts + 1) % noProducts;
+    
+    for (var i = 0; i < products.length; i++) {
+      if (i === firstProduct) {
+        products[i].className += ' noTransition';
+      } else {
+        products[i].className = products[i].className.replace(/ noTransition/g, '');
+      }
+      products[i].style[position] = productPositions[(i - loopStage + products.length) % products.length] + 'px';
+    }
+    
+    setTimeout(function() {
+      arrowDown = false;
+    }, timers.scrollAnimation);
+    
+  }
+  
+}
+
+function moveBackward() {
+  
+  if (!arrowDown) {
+    
+    var products = document.getElementsByClassName('nmpiProduct');
+    var firstProduct = loopStage;
+    var lastProduct = (noProducts + loopStage - 1) % noProducts;
+    
+    arrowDown = true;
+    loopStage = (loopStage + noProducts - 1) % noProducts;
+    
+    for (var i = 0; i < products.length; i++) {
+      if (i === lastProduct) {
+        products[i].className += ' noTransition';
+      } else {
+        products[i].className = products[i].className.replace(/ noTransition/g, '');
+      }
+      products[i].style[position] = productPositions[(i - loopStage + products.length) % products.length] + 'px';
+    }
+    
+    setTimeout(function() {
+      arrowDown = false;
+    }, timers.scrollAnimation);
+    
+  }
+  
+}

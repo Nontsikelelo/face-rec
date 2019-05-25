@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<!-- saved from url=(0069)https://s0.2mdn.net/3797665/1555946234959/AdFree2_728x90.2/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<meta name="ad.size" content="width=728,height=90">
+	<link rel="StyleSheet" href="./styles.css" type="text/css">
+	<script src="./tweenmax_2.0.1_min.js.download"></script>
+	<script src="./jquery.min.js.download"></script>
+	<script src="./animation.js.download"></script>
+	<script type="text/javascript">
+		var clickTag = "http://www.google.com"; 
+	</script>
+<script type="text/javascript">
+    
+      (function() {
+        var relegateNavigation = '';
+        var handleClickTagMessage = function(e) {
+          try {
+            var eventData = JSON.parse(e.data);
+          } catch (err) {
+            return;
+          }
+          if (eventData.isInitClickTag) {
+            if (eventData.clickTags) {
+              for (var i = 0; i < eventData.clickTags.length; i++) {
+                var clkTag = eventData.clickTags[i];
+                window[clkTag.name] = clkTag.url;
+              }
+            } else if (eventData.clickTag) {
+              window.clickTag = eventData.clickTag;
+            }
+            relegateNavigation = eventData.relegateNavigation;
+          }
+        };
+
+        if (open.call) {
+          window.open = function(open) {
+            return function(url, name, features) {
+              if (relegateNavigation === 'parent') {
+                var message = {'clickTag': url, 'isPostClickTag': true};
+                parent.postMessage(JSON.stringify(message), '*');
+              } else {
+                var args = [url, name];
+                if (features) {
+                  args.push(features);
+                }
+                open.apply(window, args);
+              }
+            };
+          }(window.open);
+        }
+
+        if (window.addEventListener) {
+          window.addEventListener(
+              'message', handleClickTagMessage, false);
+        } else {
+          window.attachEvent('onmessage', handleClickTagMessage);
+        }
+      })();
+    
+  </script></head>
+
+<body onload="init()">
+	<div id="container_dc" style="display: block;">
+		<div id="content_dc">
+				<div id="bg" class="full_div">
+					
+				</div>					
+				<div id="logo" class="full_div"><img src="./logo.png" width="728" height="90"></div>
+				<div id="cta" class="full_div"><img src="./cta.png" width="728" height="90"></div>
+				<div id="cta_copy" class="full_div"><img src="./cta_copy.png" width="728" height="90"></div>
+				
+				<div id="copy1" class="full_div" style="visibility: hidden; opacity: 0;">
+					<div id="copy1a" class="text1 full_div" style="visibility: inherit; opacity: 1;"><img src="./copy1a.png" width="728" height="90"></div>			
+					<div id="copy1b" class="text1 full_div" style="visibility: inherit; opacity: 1;"><img src="./copy1b.png" width="728" height="90"></div>			
+				</div>
+				<div id="copy2" class="full_div" style="visibility: hidden; opacity: 0;">
+					<div id="copy2a" class="text1 full_div" style="visibility: inherit; opacity: 1;"><img src="./copy2a.png" width="728" height="90"></div>			
+					<div id="copy2b" class="text1 full_div" style="visibility: inherit; opacity: 1;"><img src="./copy2b.png" width="728" height="90"></div>			
+				</div>
+				<div id="copy3" class="full_div">
+					<div id="copy3a" class="text1 full_div" style="visibility: inherit; opacity: 1; transform: matrix(1, 0, 0, 1, 0, 0);"><img src="./copy3a.png" width="728" height="90"></div>			
+					<div id="copy3b" class="text2 full_div" style="visibility: inherit; opacity: 1; transform: matrix(1, 0, 0, 1, 0, 0);"><img src="./copy3b.png" width="728" height="90"></div>			
+				</div>
+				<div id="anim_container" class="full_div" style="visibility: hidden; opacity: 0;">
+					<div id="anim_bg" class="full_div"></div>	
+				<div id="anim_holder" class="full_div" style="transform: matrix(1.75, 0, 0, 1.75, 10, 15);">	
+				
+					<div id="main_img" class="full_div" style="transform: matrix(1.29979, 0.02291, -0.02291, 1.29979, 0, 0); transform-origin: 50% 20% 0px;">
+						<div id="img_body" class="full_div"><img src="./img_body.jpg" width="728" height="90"></div>
+						<div id="img_head" class="full_div" style="transform: matrix(1, 0, 0, 1, 0, 0);">					
+							<div id="img_head" class="full_div"><img src="./img_head.png" width="728" height="90"></div>
+			
+							
+							<div id="img_blink" class="full_div" style="visibility: hidden; opacity: 0;"><img src="./img_blink.png" width="728" height="90"></div>
+							
+						</div>						
+</div>
+					
+						
+					</div>	
+					<div id="scrub_base" class="full_div"><img src="./scrub_base.png" width="728" height="90"></div>								
+					<div id="scrub_bar" class="full_div" style="transform: matrix(0.7, 0, 0, 1, 0, 0); transform-origin: 202px 100% 0px;"><img src="./scrub_bar.png" width="728" height="90"></div>	
+				</div>			
+			
+	
+				
+			
+		</div>   
+		<div id="border_div" class="full_div"></div>
+		<div id="bgFade" class="full_div" style="visibility: hidden; opacity: 0; display: none;"></div>
+		<a id="background_exit_dc" onclick="javascript:window.open(window.clickTag)" target="_blank"></a>
+	</div>
+
+
+</body></html>
