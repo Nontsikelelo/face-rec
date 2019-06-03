@@ -4,7 +4,8 @@ import getpass
 import os
 
 getUser = getpass.getuser()
-save = 'C:/Users/' + getUser + "/Desktop"
+print(getUser)
+save = "./"
 
 camera_port = 0
 camera = cv2.VideoCapture(camera_port)

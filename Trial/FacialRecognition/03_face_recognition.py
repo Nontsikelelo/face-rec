@@ -15,7 +15,7 @@ font = cv2.FONT_HERSHEY_SIMPLEX
 id = 0
 
 # names related to ids: example ==> Marcelo: id=1,  etc
-names = ['None', 'Marcelo', 'Paula', 'Ilza', 'Z', 'W'] 
+names = ['Sihle', 'Nonto', 'Paula', 'Ilza', 'Z', 'W'] 
 
 # Initialize and start realtime video capture
 cam = cv2.VideoCapture(0)
@@ -63,7 +63,7 @@ while True:
 		
         cv2.putText(img, str(id), (x+5,y-5), font, 1, (255,255,255), 2)
         cv2.putText(img, str(confidence), (x+5,y+h-5), font, 1, (255,255,0), 1)  
-    
+    print("Here")
     cv2.imshow('camera',img) 
 
     k = cv2.waitKey(10) & 0xff # Press 'ESC' for exiting video

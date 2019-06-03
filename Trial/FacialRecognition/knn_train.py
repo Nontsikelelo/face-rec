@@ -28,6 +28,10 @@ import pickle
 from PIL import Image, ImageDraw
 import face_recognition
 from face_recognition.face_recognition_cli import image_files_in_folder
+import tempfile
+from shutil import copyfile
+import base64
+import cStringIO
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
@@ -85,8 +89,8 @@ def predict(X_img_path, knn_clf=None, model_path=None, distance_threshold=0.6):
     :return: a list of names and face locations for the recognized faces in the image: [(name, bounding box), ...].
         For faces of unrecognized persons, the name 'unknown' will be returned.
     """
-    if not os.path.isfile(X_img_path) or os.path.splitext(X_img_path)[1][1:] not in ALLOWED_EXTENSIONS:
-        raise Exception("Invalid image path: {}".format(X_img_path))
+    #if not os.path.isfile(X_img_path) or os.path.splitext(X_img_path)[1][1:] not in ALLOWED_EXTENSIONS:
+    #    raise Exception("Invalid image path: {}".format(X_img_path))
 
     if knn_clf is None and model_path is None:
         raise Exception("Must supply knn classifier either thourgh knn_clf or model_path")
@@ -142,29 +146,35 @@ def show_prediction_labels_on_image(img_path, predictions):
     del draw
 
     # Display the resulting image
-    pil_image.show()
+    file, ext = os.path.splitext("infile")
+    size = 1280, 1280
+    pil_image.thumbnail(size)
+    #pil_image.save("/dev/stdout", "JPEG")
+
+    buffer = cStringIO.StringIO()
+    pil_image.save(buffer, format="JPEG")
+    img_str = base64.b64encode(buffer.getvalue())
+    print(img_str)
+    #pil_image.show()
 
 
 if __name__ == "__main__":
     # STEP 1: Train the KNN classifier and save it to disk
     # Once the model is trained and saved, you can skip this step next time.
-    print("Training KNN classifier...")
+    #print("Training KNN classifier...")
     classifier = train("knn_examples/train", model_save_path="trained_knn_model.clf", n_neighbors=3)
-    print("Training complete!")
+   # print("Training complete!")
 
-    # STEP 2: Using the trained classifier, make predictions for unknown images
-    for image_file in os.listdir("knn_examples/test"):
-        full_file_path = os.path.join("knn_examples/test", image_file)
+    copyfile("/dev/stdin",'./tmpinmage')
+    predictions = predict('./tmpinmage', model_path="trained_knn_model.clf")
 
-        print("Looking for faces in {}".format(image_file))
+    # Print results on the console
+    #for name, (top, right, bottom, left) in predictions:
+        #print("- Found {} at ({}, {})".format(name, left, top))
+        
+    #import tempfile
 
-        # Find all people in the image using a trained classifier model
-        # Note: You can pass in either a classifier file name or a classifier model instance
-        predictions = predict(full_file_path, model_path="trained_knn_model.clf")
+    # Display results overlaid on an image
+    show_prediction_labels_on_image(os.path.join("", './tmpinmage'), predictions)
 
-        # Print results on the console
-        for name, (top, right, bottom, left) in predictions:
-            print("- Found {} at ({}, {})".format(name, left, top))
-
-        # Display results overlaid on an image
-        show_prediction_labels_on_image(os.path.join("knn_examples/test", image_file), predictions)
+    # STEP 2: Using the trained classifier, make predictions for unknown images 
