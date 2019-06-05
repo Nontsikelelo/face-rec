@@ -1,25 +1,20 @@
 <template>
     <div>
-        <WebCam
-                ref="webcam"
-                :deviceId="deviceId"
-                width="auto"
-                height="100%"
-                @cameras="onCameras"
-                @camera-change="onCameraChange"
-                :isFrontCam="frontCam"
-                :googleKey="googleKey"
-        >
-        </WebCam>
+ <capture-image></capture-image>
     </div>
 </template>
 
 <script>
-    import { WebCam } from 'vue-cam-vision'
+   import CaptureImage from "./CaptureImage";
     export default {
         name: "Attendance",
         components: {
-            WebCam
+            CaptureImage
+        },
+        data () {
+            return {
+                photo: null
+            };
         },
         methods:{
             started(a){
@@ -30,6 +25,9 @@
             },
             error(a){
                 console.log('started',a)
+            },
+            take_photo(a){
+                console.log(a)
             }
         }
     }

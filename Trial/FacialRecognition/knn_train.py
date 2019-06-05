@@ -37,7 +37,7 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 
 def train(train_dir, model_save_path=None, n_neighbors=None, knn_algo='ball_tree', verbose=False):
-    
+
     X = []
     y = []
 
@@ -154,8 +154,8 @@ def show_prediction_labels_on_image(img_path, predictions):
     buffer = cStringIO.StringIO()
     pil_image.save(buffer, format="JPEG")
     img_str = base64.b64encode(buffer.getvalue())
-    print(img_str)
-    #pil_image.show()
+    #print(img_str)
+    pil_image.show()
 
 
 if __name__ == "__main__":
@@ -165,16 +165,16 @@ if __name__ == "__main__":
     classifier = train("knn_examples/train", model_save_path="trained_knn_model.clf", n_neighbors=3)
    # print("Training complete!")
 
-    copyfile("/dev/stdin",'./tmpinmage')
-    predictions = predict('./tmpinmage', model_path="trained_knn_model.clf")
+    #copyfile("test_image.png",'./tmpinmage')
+    predictions = predict('./test_image.png', model_path="trained_knn_model.clf")
 
     # Print results on the console
     #for name, (top, right, bottom, left) in predictions:
         #print("- Found {} at ({}, {})".format(name, left, top))
-        
+
     #import tempfile
 
     # Display results overlaid on an image
-    show_prediction_labels_on_image(os.path.join("", './tmpinmage'), predictions)
+    show_prediction_labels_on_image(os.path.join("", './test_image.png'), predictions)
 
-    # STEP 2: Using the trained classifier, make predictions for unknown images 
+    # STEP 2: Using the trained classifier, make predictions for unknown images

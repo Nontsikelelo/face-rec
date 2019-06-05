@@ -1,0 +1,19 @@
+{
+  "name": "trial",
+  "version": "1.0.0",
+  "description": "Real-time face recognition project with OpenCV and Python <br><br> Links for complete Tutorial: <br> https://www.hackster.io/mjrobot/real-time-face-recognition-an-end-to-end-project-a10826 https://www.instructables.com/id/Real-time-Face-Recognition-an-End-to-end-Project/ <br> <p><img src=\"https://github.com/Mjrovai/OpenCV-Face-Recognition/blob/master/FaceRecogBlock.png?raw=true\"></p>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.1.4",
+    "nodemon": "^1.19.1",
+    "to": "^0.2.9",
+    "update": "^0.7.4"
+  }
+}
