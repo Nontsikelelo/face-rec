@@ -1,10 +1,16 @@
 <template>
-    <div> Register Student</div>
+    <div>
+        <capture-image url="/"></capture-image>
+    </div>
 </template>
 
 <script>
+    import CaptureImage from "./CaptureImage";
     export default {
-        name: "RegisterStudent"
+        name: "RegisterStudent",
+        components: {
+            CaptureImage
+        },
     }
 </script>
 

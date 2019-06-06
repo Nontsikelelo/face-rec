@@ -18,6 +18,20 @@ app.post( '/upload', function ( req, res ) {
   }
 } );
 
+
+app.post( '/train/:user', function ( req, res ) {
+  if ( !req.files ) {
+    console.log( `No files` )
+    return res.status( 400 )
+      .send( 'No files were uploaded.' );
+  } else {
+    req.files[ res.params.user ].mv(
+      `FacialRecognition/train/${res.params.user}/${new Date()}.png` )
+
+  }
+} );
+
+
 app.listen( 3000, function () {
   console.log(
     `

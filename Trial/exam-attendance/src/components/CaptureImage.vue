@@ -22,6 +22,7 @@
     }
     export default {
         name: "CaptureImage",
+        props:['url'],
         mounted() {
             let captureVideoButton =
                 document.querySelector('#screenshot');
